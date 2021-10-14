@@ -1,0 +1,57 @@
+---
+- name: Check for replay (/opt/target_config_done exists)
+  stat:
+    path: /opt/target_config_done
+  register: target_config_done
+
+- name: targetcli /backstores/block create disk01
+  shell: "targetcli /backstores/block create disk01 /dev/vdb"
+  register: task_result
+  until: task_result.rc == 0
+  retries: 25
+  delay: 10
+  ignore_errors: yes
+
+- name: create iqn.2021-08.ru.otus:storage.target00
+  shell: "targetcli /iscsi create iqn.2021-08.ru.otus:storage.target00"
+  register: task_result
+  until: task_result.rc == 0
+  retries: 25
+  delay: 10
+  ignore_errors: yes
+
+- name: targetcli /iscsi/iqn.2021-08.ru.otus:storage.target00/tpg1/luns create
+  shell: "targetcli /iscsi/iqn.2021-08.ru.otus:storage.target00/tpg1/luns create /backstores/block/disk01"
+  register: task_result
+  until: task_result.rc == 0
+  retries: 25
+  delay: 10
+  ignore_errors: yes
+
+- name: targetcli /iscsi/iqn.2021-08.ru.otus:storage.target00/tpg1 set attribute
+  shell: "targetcli /iscsi/iqn.2021-08.ru.otus:storage.target00/tpg1 set attribute authentication=0"
+  register: task_result
+  until: task_result.rc == 0
+  retries: 25
+  delay: 10
+  ignore_errors: yes
+
+- name: targetcli /iscsi/iqn.2021-08.ru.otus:storage.target00/tpg1/acls create
+  shell: "targetcli /iscsi/iqn.2021-08.ru.otus:storage.target00/tpg1/acls create wwn=iqn.1994-05.com.redhat:b58b9ca17223"
+  register: task_result
+  until: task_result.rc == 0
+  retries: 25
+  delay: 10
+  ignore_errors: yes
+  when:
+    - target_config_done.stat.exists != True
+
+- name: Set replay protection (/opt/target_config_done)
+  file:
+    path: /opt/target_config_done
+    state: touch
+    owner: root
+    group: root
+    mode: '0744'
+  when:
+    - target_config_done.stat.exists != True

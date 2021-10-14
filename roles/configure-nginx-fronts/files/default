@@ -1,0 +1,13 @@
+upstream webs {
+ server 192.168.6.4 max_fails=2 fail_timeout=3;
+ server 192.168.6.5 max_fails=2 fail_timeout=3;
+ server 192.168.6.6 max_fails=2 fail_timeout=3;
+}
+
+server {
+ server_name _;
+ listen 80 default_server;
+ location / {
+ proxy_pass http://webs;
+ }
+}

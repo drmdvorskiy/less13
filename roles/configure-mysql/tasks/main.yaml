@@ -1,0 +1,30 @@
+- name: Check for replay (/opt/mysql_user_done exists)
+  stat:
+    path: /opt/mysql_user_done
+  register: mysql_user_done
+
+- name: Create users and grant privileges
+  become: true
+  shell: mysql -u root -NBe "{{ item }}"
+  with_items:
+    - "CREATE USER {{ mysql_admin_username }} IDENTIFIED BY '{{ mysql_admin_password }}';"
+    - "GRANT ALL PRIVILEGES ON *.* TO {{ mysql_admin_username }} WITH GRANT OPTION;"
+  when:
+    - mysql_user_done.stat.exists != True
+
+- name: Set replay protection (/opt/mysql_user_done)
+  file:
+    path: /opt/mysql_user_done
+    state: touch
+    owner: root
+    group: root
+    mode: '0744'
+  when:
+    - mysql_user_done.stat.exists != True
+
+- name: Set bind address
+  lineinfile:
+    path: /etc/mysql/mysql.conf.d/mysqld.cnf
+    regexp: '^bind-address'
+    line: bind-address = *
+  notify: restart mysql

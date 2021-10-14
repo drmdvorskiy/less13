@@ -1,0 +1,15 @@
+! Configuration File for keepalived
+
+vrrp_instance VI_1 {
+    state {{ state }}
+    interface enp0s8
+    virtual_router_id 142
+    priority {{ priority }}
+    authentication {
+        auth_type PASS
+        auth_pass FE1
+    }
+    virtual_ipaddress {
+        {{ VRRP }}
+    }
+}

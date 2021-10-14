@@ -1,0 +1,9 @@
+---
+- name: Configure nginx fronts
+  copy:
+    src: roles/configure-nginx-fronts/files/default
+    dest: /etc/nginx/sites-available/default
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart nginx

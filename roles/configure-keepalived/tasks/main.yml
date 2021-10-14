@@ -1,0 +1,40 @@
+---
+- name: Configure keepalived
+  template:
+    src: roles/configure-keepalived/files/keepalive.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart keepalived
+
+- name: Start keepalived
+  service:
+   name: keepalived.service
+   state: started
+   enabled: yes
+
+- name: Check for replay (/opt/ip_forward_done exists)
+  stat:
+    path: /opt/ip_forward_done
+  register: ip_forward_done
+
+- name: set ip_forward
+  shell: "sed -i s/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g /etc/sysctl.conf && sysctl -p /etc/sysctl.conf"
+  register: task_result
+  until: task_result.rc == 0
+  retries: 25
+  delay: 10
+  ignore_errors: yes
+  when:
+     - ip_forward_done.stat.exists != True
+
+- name: Set replay protection (/opt/ip_forward_done)
+  file:
+    path: /opt/ip_forward_done
+    state: touch
+    owner: root
+    group: root
+    mode: '0744'
+  when:
+    - ip_forward_done.stat.exists != True

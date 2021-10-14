@@ -1,0 +1,17 @@
+---
+- name: Configure nginx backends
+  copy:
+    src: roles/configure-nginx-backends/files/default
+    dest: /etc/nginx/sites-available/default
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart nginx
+
+- name: Configure nginx backends2
+  copy:
+    src: roles/configure-nginx-backends/files/index.php
+    dest: /var/www/html/
+    owner: root
+    group: root
+    mode: '0644'

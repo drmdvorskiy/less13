@@ -194,52 +194,63 @@ resource "yandex_compute_instance" "db" {
 }
 
 #################################################################################
-output "internal_ip_address_origin" {
+output "external_ip_address_origin" {
   value = yandex_compute_instance.origin.*.network_interface.0.nat_ip_address
 }
-output "internal_ip_address_fe0" {
+output "external_ip_address_fe0" {
   value = yandex_compute_instance.fe[0].network_interface.0.nat_ip_address
 }
-output "internal_ip_address_fe1" {
+output "external_ip_address_fe1" {
   value = yandex_compute_instance.fe[1].network_interface.0.nat_ip_address
 }
-output "internal_ip_address_web0" {
+output "external_ip_address_web0" {
   value = yandex_compute_instance.web[0].network_interface.0.nat_ip_address
 }
-output "internal_ip_address_web1" {
+output "external_ip_address_web1" {
   value = yandex_compute_instance.web[1].network_interface.0.nat_ip_address
 }
-output "internal_ip_address_web2" {
+output "external_ip_address_web2" {
   value = yandex_compute_instance.web[2].network_interface.0.nat_ip_address
 }
-output "internal_ip_address_db" {
+output "external_ip_address_db" {
   value = yandex_compute_instance.db.*.network_interface.0.nat_ip_address
 }
-output "internal_ip_address_iscsi" {
+output "external_ip_address_iscsi" {
   value = yandex_compute_instance.iscsi.*.network_interface.0.nat_ip_address
 }
 ##
-output "external_ip_address_origin" {
+output "internal_ip_address_origin" {
   value = yandex_compute_instance.origin.*.network_interface.0.ip_address
 }
-output "external_ip_address_fe0" {
+output "internal_ip_address_fe0" {
   value = yandex_compute_instance.fe[0].network_interface.0.ip_address
 }
-output "external_ip_address_fe1" {
+output "internal_ip_address_fe1" {
   value = yandex_compute_instance.fe[1].network_interface.0.ip_address
 }
-output "external_ip_address_web0" {
+output "internal_ip_address_web0" {
   value = yandex_compute_instance.web[0].network_interface.0.ip_address
 }
-output "external_ip_address_web1" {
+output "internal_ip_address_web1" {
   value = yandex_compute_instance.web[1].network_interface.0.ip_address
 }
-output "external_ip_address_web2" {
+output "internal_ip_address_web2" {
   value = yandex_compute_instance.web[2].network_interface.0.ip_address
 }
-output "external_ip_address_db" {
+output "internal_ip_address_db" {
   value = yandex_compute_instance.db.*.network_interface.0.ip_address
 }
-output "external_ip_address_iscsi" {
+output "internal_ip_address_iscsi" {
   value = yandex_compute_instance.iscsi.*.network_interface.0.ip_address
+}
+###############################
+
+output "hostname_web0" {
+  value = yandex_compute_instance.web[0].hostname
+}
+output "hostname_web1" {
+  value = yandex_compute_instance.web[1].hostname
+}
+output "hostname_web2" {
+  value = yandex_compute_instance.web[2].hostname
 }

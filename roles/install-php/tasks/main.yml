@@ -1,0 +1,9 @@
+---
+- name: Install php-fpm | php-mysql
+  apt:
+    update_cache: yes
+    state: present
+    name:
+      - php7.4-fpm
+      - php7.4
+      - php7.4-mysql

@@ -1,0 +1,5 @@
+---
+- name: Install keepalived
+  apt:
+    name: keepalived
+    state: present

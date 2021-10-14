@@ -1,0 +1,9 @@
+---
+- name: Install iscsi client
+  yum:
+    state: present
+    name:
+      - iscsi-initiator-utils
+      - iscsi-initiator-utils-iscsiuio
+      - gfs2-utils
+      - lvm2-cluster

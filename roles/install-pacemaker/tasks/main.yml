@@ -1,0 +1,67 @@
+---
+- name: Install packages
+  yum:
+    state: present
+    name:
+      - pacemaker
+      - pcs
+      - psmisc
+      - policycoreutils-python
+
+- name: Copy /etc/hosts file
+  copy:
+    src: hosts
+    dest: /etc/
+
+- name: enable pcsd service
+  systemd:
+    name: pcsd
+    state: started
+    enabled: yes
+
+- name: config | Setting hacluster password
+  user:
+    name:  "{{ pacemaker_hacluster_user }}"
+    password: "{{ pacemaker_hacluster_sha }}"
+  become: true
+
+- name: Check for replay (/opt/auth_done exists)
+  stat:
+    path: /opt/auth_done
+  register: auth_done
+
+- name: pcs cluster auth
+  shell: "pcs cluster auth {{ nodes }} -u {{ pacemaker_hacluster_user }} -p  {{ pacemaker_hacluster_password }}"
+  register: task_result
+  until: task_result.rc == 0
+  retries: 25
+  delay: 10
+  ignore_errors: yes
+
+- name: pcs cluster setup
+  shell: "pcs cluster setup --name {{ pacemaker_hacluster_name }} {{ nodes }}"
+  register: task_result
+  until: task_result.rc == 0
+  retries: 25
+  delay: 10
+  ignore_errors: yes
+
+- name: pcs cluster start
+  shell: "pcs cluster start --all"
+  register: task_result
+  until: task_result.rc == 0
+  retries: 25
+  delay: 10
+  ignore_errors: yes
+  when:
+     - auth_done.stat.exists != True
+
+- name: Set replay protection (/opt/auth_done)
+  file:
+    path: /opt/auth_done
+    state: touch
+    owner: root
+    group: root
+    mode: '0744'
+  when:
+    - auth_done.stat.exists != True

@@ -1,0 +1,38 @@
+---
+- name: Copy initiator name
+  copy:
+    src: initiatorname.iscsi
+    dest: /etc/iscsi/
+
+- name: Check for replay (/opt/initiator_config_done exists)
+  stat:
+    path: /opt/initiator_config_done
+  register: initiator_config_done
+
+- name: iscsiadm -m discovery
+  shell: "iscsiadm -m discovery -t st -p {{ int_iscsi_ip }}"
+  register: task_result
+  until: task_result.rc == 0
+  retries: 25
+  delay: 10
+  ignore_errors: yes
+
+- name: iscsiadm -m node
+  shell: "iscsiadm -m node -l -T iqn.2021-08.ru.otus:storage.target00"
+  register: task_result
+  until: task_result.rc == 0
+  retries: 25
+  delay: 10
+  ignore_errors: yes
+  when:
+    - initiator_config_done.stat.exists != True
+
+- name: Set replay protection (/opt/initiator_config_done)
+  file:
+    path: /opt/initiator_config_done
+    state: touch
+    owner: root
+    group: root
+    mode: '0744'
+  when:
+    - initiator_config_done.stat.exists != True
