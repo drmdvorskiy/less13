@@ -37,7 +37,7 @@ echo "[web0]" >> my.invent
 echo "${web0_ip}" >> my.invent
 echo "===== inventory hase been generated ====="
 
-echo "int_iscsi_ip: ${int_iscsi_ip}" > roles/create-initiator/vars/main.ym
+echo "int_iscsi_ip: ${int_iscsi_ip}" > roles/create-initiator/vars/main.yml
 
 # for VRRP address
 arr=(`grep -Po "(\d+\.){3}\d+" my.invent | cut -d "." -f 4`)
