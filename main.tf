@@ -100,7 +100,7 @@ resource "yandex_compute_instance" "iscsi" {
 
 resource "yandex_compute_instance" "web" {
   count = 3
-  name = "web${count.index+1}"
+  name = "web${count.index}"
 
   resources {
     cores  = 2
@@ -132,7 +132,7 @@ resource "yandex_compute_instance" "web" {
 
 resource "yandex_compute_instance" "fe" {
   count = 2
-  name = "fe${count.index+1}"
+  name = "fe${count.index}"
 
   resources {
     cores  = 2

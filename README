@@ -1,4 +1,4 @@
 представлен манифест по развертыванию контейнера с убунтой
 (картинку прилагаю)
 
-terraform apply -auto-approve && ./gen_invent.sh && echo -ne "Wait 3 minutes ..." && sleep 180 && ansible-playbook -u centos -i my.invent main.yml
+terraform apply -auto-approve && sleep 60 && ./gen_invent.sh && echo -ne "Wait 1 minute ..." && sleep 60 && ansible-playbook -i my.invent main.yml

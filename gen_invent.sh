@@ -36,6 +36,12 @@ echo "${iscsi_ip}" >> my.invent
 echo "" >> my.invent
 echo "[web0]" >> my.invent
 echo "${web0_ip}" >> my.invent
+echo "" >> my.invent
+echo "[fe0]" >> my.invent
+echo "${fe0_ip}" >> my.invent
+echo "" >> my.invent
+echo "[fe1]" >> my.invent
+echo "${fe1_ip}" >> my.invent
 echo "===== inventory hase been generated ====="
 
 echo "int_iscsi_ip: ${int_iscsi_ip}" > roles/create-initiator/vars/main.yml
@@ -44,7 +50,12 @@ echo "int_iscsi_ip: ${int_iscsi_ip}" > roles/create-initiator/vars/main.yml
 arr=(`grep -Po "(\d+\.){3}\d+" my.invent | cut -d "." -f 4`)
 for i in {1..254}; do
   if [ `echo "${arr[@]}" | tr " " "\n" | grep "^${i}$" | wc -l` -eq 0 ]; then
-    echo "VRRP: \"192.168.6.${i}\"" > roles/configure-keepalived/vars/main.yml
+    echo "VRRP: 192.168.6.${i}" > group_vars/fe0
+    echo "state: MASTER" >> group_vars/fe0
+    echo "priority: 101" >> group_vars/fe0
+    echo "VRRP: 192.168.6.${i}" > group_vars/fe1
+    echo "state: BACKUP" >> group_vars/fe1
+    echo "priority: 80" >> group_vars/fe1
     break
   fi
 done
@@ -58,3 +69,7 @@ echo "===== file etc/hosts hase been generated ====="
 nodes=`echo "${hname_web0} ${hname_web1} ${hname_web2}"`
 sed -i '/^nodes/d' roles/install-pacemaker/vars/main.yml
 sed -i "$ a nodes: '${nodes}'" roles/install-pacemaker/vars/main.yml
+
+echo "int_web0_ip: ${int_web0_ip}" > roles/configure-nginx-fronts/vars/main.yml
+echo "int_web1_ip: ${int_web1_ip}" >> roles/configure-nginx-fronts/vars/main.yml
+echo "int_web2_ip: ${int_web2_ip}" >> roles/configure-nginx-fronts/vars/main.yml
