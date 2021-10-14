@@ -1,6 +1,7 @@
 ---
 - name: install packages ... pcm
   become: true
+  user: centos
   hosts: web
   roles:
     - role: install-pacemaker
@@ -8,25 +9,29 @@
 
 - name: install packages ... iscsi
   become: true
+  user: centos
   hosts: iscsi
   roles:
     - role: iscsi-target
 
 - name: create target
   become: true
+  user: centos
   hosts: iscsi
   roles:
     - role: create-target
 
 - name: create initiator
   become: true
+  user: centos
   hosts: web
   roles:
     - role: create-initiator
 
 - name: config GFS2
   become: true
-  hosts: web00
+  user: centos
+  hosts: web0
   roles:
     - role: config-gfs2
 
@@ -34,18 +39,14 @@
 ###############################
 - name: install keepalive
   become: true
+  user: ubuntu
   hosts: fe
   roles:
     - role: install-keepalive
 
-- name: install nginx
-  become: true
-  hosts: web
-  roles:
-    - role: install-nginx
-
 - name: install php
   become: true
+  user: centos
   hosts: web
   roles:
     - role: install-php
@@ -53,30 +54,35 @@
 
 - name: install mysql
   become: true
+  user: ubuntu
   hosts: db
   roles:
     - role: install-mysql
 
 - name: configure keepalive
   become: true
+  user: ubuntu
   hosts: fe
   roles:
     - role: configure-keepalived
 
 - name: configure-nginx-fronts
   become: true
+  user: ubuntu
   hosts: fe
   roles:
     - role: configure-nginx-fronts
 
 - name: configure-nginx-backends
   become: true
+  user: centos
   hosts: web
   roles:
     - role: configure-nginx-backends
 
 - name: configure-mysql
   become: true
+  user: ubuntu
   hosts: db
   roles:
     - role: configure-mysql
