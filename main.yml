@@ -1,0 +1,31 @@
+---
+- name: install packages ... pcm
+  become: true
+  hosts: pcm
+  roles:
+    - role: install-pacemaker
+    - role: iscsi-client
+
+- name: install packages ... iscsi
+  become: true
+  hosts: iscsi
+  roles:
+    - role: iscsi-target
+
+- name: create target
+  become: true
+  hosts: iscsi
+  roles:
+    - role: create-target
+
+- name: create initiator
+  become: true
+  hosts: pcm
+  roles:
+    - role: create-initiator
+
+- name: config GFS2
+  become: true
+  hosts: pcm0
+  roles:
+    - role: config-gfs2

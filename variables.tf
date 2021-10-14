@@ -13,9 +13,14 @@ variable "folder_id" {
   default = "b1g5dp1pciuk5oqnra39"
 }
 
-variable "image_id" {
+variable "image_id_c" {
   type = string
   default = "fd83869rbingor0in0ui"
+}
+
+variable "image_id_u" {
+  type = string
+  default = "fd83klic6c8gfgi40urb"
 }
 
 variable "yc_token" {

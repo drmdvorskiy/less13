@@ -1,9 +1,17 @@
 ---
+- name: Install epel-release
+  yum:
+    update_cache: yes
+    state: latest
+    name:
+      - epel-release
+
 - name: Install php-fpm | php-mysql
-  apt:
+  yum:
     update_cache: yes
     state: present
     name:
-      - php7.4-fpm
-      - php7.4
-      - php7.4-mysql
+      - php-fpm
+      - php
+      - php-mysql
+      - nginx

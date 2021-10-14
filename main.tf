@@ -42,7 +42,7 @@ resource "yandex_compute_instance" "origin" {
 
   boot_disk {
     initialize_params {
-      image_id = var.image_id
+      image_id = var.image_id_u
     }
   }
 
@@ -52,12 +52,12 @@ resource "yandex_compute_instance" "origin" {
   }
 
   metadata = {
-    ssh-keys = "centos:${file("~/.ssh/id_rsa.pub")}"
+    ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
   }
 
   connection {
     type        = "ssh"
-    user        = "centos"
+    user        = "ubuntu"
     private_key = file("~/.ssh/id_rsa")
     host        = self.network_interface.0.nat_ip_address
   }
@@ -73,7 +73,7 @@ resource "yandex_compute_instance" "iscsi" {
 
   boot_disk {
     initialize_params {
-      image_id = var.image_id
+      image_id = var.image_id_c
     }
   }
 
@@ -109,7 +109,7 @@ resource "yandex_compute_instance" "web" {
 
   boot_disk {
     initialize_params {
-      image_id = var.image_id
+      image_id = var.image_id_c
     }
   }
 
@@ -141,7 +141,7 @@ resource "yandex_compute_instance" "fe" {
 
   boot_disk {
     initialize_params {
-      image_id = var.image_id
+      image_id = var.image_id_u
     }
   }
 
@@ -151,12 +151,12 @@ resource "yandex_compute_instance" "fe" {
   }
 
   metadata = {
-    ssh-keys = "centos:${file("~/.ssh/id_rsa.pub")}"
+    ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
   }
 
   connection {
     type        = "ssh"
-    user        = "centos"
+    user        = "ubuntu"
     private_key = file("~/.ssh/id_rsa")
     host        = self.network_interface.0.nat_ip_address
   }
@@ -172,7 +172,7 @@ resource "yandex_compute_instance" "db" {
 
   boot_disk {
     initialize_params {
-      image_id = var.image_id
+      image_id = var.image_id_u
     }
   }
 
@@ -182,12 +182,12 @@ resource "yandex_compute_instance" "db" {
   }
 
   metadata = {
-    ssh-keys = "centos:${file("~/.ssh/id_rsa.pub")}"
+    ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
   }
 
   connection {
     type        = "ssh"
-    user        = "centos"
+    user        = "ubuntu"
     private_key = file("~/.ssh/id_rsa")
     host        = self.network_interface.0.nat_ip_address
   }

@@ -15,6 +15,7 @@ int_iscsi_ip=`terraform output internal_ip_address_iscsi | grep -Po '(\d{1,3}\.)
 int_web0_ip=`terraform output internal_ip_address_web0 | grep -Po '(\d{1,3}\.){3}\d{1,3}'`
 int_web1_ip=`terraform output internal_ip_address_web1 | grep -Po '(\d{1,3}\.){3}\d{1,3}'`
 int_web2_ip=`terraform output internal_ip_address_web2 | grep -Po '(\d{1,3}\.){3}\d{1,3}'`
+int_db_ip=`terraform output internal_ip_address_db | grep -Po '(\d{1,3}\.){3}\d{1,3}'`
 echo "[origin]" > my.invent
 echo "${origin_ip}" >> my.invent
 echo "" >> my.invent

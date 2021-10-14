@@ -1,7 +1,7 @@
 ---
 - name: Configure nginx fronts
-  copy:
-    src: roles/configure-nginx-fronts/files/default
+  template:
+    src: roles/configure-nginx-fronts/files/default.j2
     dest: /etc/nginx/sites-available/default
     owner: root
     group: root

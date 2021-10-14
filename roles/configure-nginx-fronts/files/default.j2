@@ -1,0 +1,13 @@
+upstream webs {
+ server {{ int_web0_ip }} max_fails=2 fail_timeout=3;
+ server {{ int_web1_ip }} max_fails=2 fail_timeout=3;
+ server {{ int_web2_ip }} max_fails=2 fail_timeout=3;
+}
+
+server {
+ server_name _;
+ listen 80 default_server;
+ location / {
+ proxy_pass http://webs;
+ }
+}
