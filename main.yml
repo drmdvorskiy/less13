@@ -1,7 +1,7 @@
 ---
 - name: install packages ... pcm
   become: true
-  hosts: pcm
+  hosts: web
   roles:
     - role: install-pacemaker
     - role: iscsi-client
@@ -20,12 +20,63 @@
 
 - name: create initiator
   become: true
-  hosts: pcm
+  hosts: web
   roles:
     - role: create-initiator
 
 - name: config GFS2
   become: true
-  hosts: pcm0
+  hosts: web00
   roles:
     - role: config-gfs2
+
+
+###############################
+- name: install keepalive
+  become: true
+  hosts: fe
+  roles:
+    - role: install-keepalive
+
+- name: install nginx
+  become: true
+  hosts: web
+  roles:
+    - role: install-nginx
+
+- name: install php
+  become: true
+  hosts: web
+  roles:
+    - role: install-php
+
+
+- name: install mysql
+  become: true
+  hosts: db
+  roles:
+    - role: install-mysql
+
+- name: configure keepalive
+  become: true
+  hosts: fe
+  roles:
+    - role: configure-keepalived
+
+- name: configure-nginx-fronts
+  become: true
+  hosts: fe
+  roles:
+    - role: configure-nginx-fronts
+
+- name: configure-nginx-backends
+  become: true
+  hosts: web
+  roles:
+    - role: configure-nginx-backends
+
+- name: configure-mysql
+  become: true
+  hosts: db
+  roles:
+    - role: configure-mysql
