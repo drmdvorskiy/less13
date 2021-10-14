@@ -73,3 +73,5 @@ sed -i "$ a nodes: '${nodes}'" roles/install-pacemaker/vars/main.yml
 echo "int_web0_ip: ${int_web0_ip}" > roles/configure-nginx-fronts/vars/main.yml
 echo "int_web1_ip: ${int_web1_ip}" >> roles/configure-nginx-fronts/vars/main.yml
 echo "int_web2_ip: ${int_web2_ip}" >> roles/configure-nginx-fronts/vars/main.yml
+
+echo "int_db_ip: ${int_db_ip}" > roles/configure-nginx-backends/vars/main.yml

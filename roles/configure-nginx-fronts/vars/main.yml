@@ -1,1 +1,3 @@
-int_iscsi_ip: 192.168.6.18
+int_web0_ip: 192.168.6.24
+int_web1_ip: 192.168.6.27
+int_web2_ip: 192.168.6.7
