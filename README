@@ -2,3 +2,5 @@
 (картинку прилагаю)
 
 terraform apply -auto-approve && sleep 60 && ./gen_invent.sh && echo -ne "Wait 1 minute ..." && sleep 60 && ansible-playbook -i my.invent main.yml
+
+curl -I -XGET 'http://192.168.4.4/index.php' (в консоли)

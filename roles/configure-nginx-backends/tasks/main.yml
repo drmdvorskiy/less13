@@ -15,3 +15,6 @@
     owner: root
     group: root
     mode: '0644'
+
+- name: Start php-fpm
+  systemd: name=php-fpm enabled=yes state=started
