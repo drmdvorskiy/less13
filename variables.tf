@@ -5,12 +5,12 @@ variable "zone" {
 
 variable "cloud_id" {
   type = string
-  default = "b1gjsu9f4sbdd7kn6mqb"
+  default = "******"
 }
 
 variable "folder_id" {
   type = string
-  default = "b1g5dp1pciuk5oqnra39"
+  default = "*******"
 }
 
 variable "image_id_c" {
@@ -25,5 +25,5 @@ variable "image_id_u" {
 
 variable "yc_token" {
   type = string
-  default = "AQAAAABXjSZGAATuwSBG7qJ15UPInUeCqXYokPc"
+  default = "*****"
 }

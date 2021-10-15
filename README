@@ -1,6 +1,14 @@
 перейти в директорию с проектом и запустить
 terraform apply -auto-approve && sleep 60 && ./gen_invent.sh && sleep 60 && ansible-playbook -i my.invent main.yml
 
-после скрипт сгенерирует инвентори и другие переменные + выведет строку для подключения
+после скрипт сгенерирует инвентори и другие переменные + выведет строку для подключения перед выполнением плайбука
+пример:
+===== inventory hase been generated =====
+===== file etc/hosts hase been generated =====
+- ssh ubuntu@178.154.213.151
+- curl 192.168.6.1/index.php
+
 
 курлом по флоат ип дергается пхп скрипт(через апстримы) и показывает список баз
+
+cloud_id, folder_id, yc_token - подставить свои
