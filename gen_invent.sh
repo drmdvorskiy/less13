@@ -75,3 +75,6 @@ echo "int_web1_ip: ${int_web1_ip}" >> roles/configure-nginx-fronts/vars/main.yml
 echo "int_web2_ip: ${int_web2_ip}" >> roles/configure-nginx-fronts/vars/main.yml
 
 echo "int_db_ip: ${int_db_ip}" > roles/configure-nginx-backends/vars/main.yml
+###################################################################################
+float=`grep -Po "(\d+\.){3}\d+" group_vars/fe0`
+echo -e "- ssh ubuntu@${origin_ip}\n- curl ${float}/index.php"
