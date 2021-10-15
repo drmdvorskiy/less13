@@ -15,3 +15,8 @@
       - php
       - php-mysql
       - nginx
+      - libselinux-python
+      - libselinux-python3
+
+- name: Disable Selinux
+  selinux: policy=targeted state=permissive
